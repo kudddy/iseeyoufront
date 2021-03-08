@@ -14,7 +14,6 @@ class App extends React.Component{
   }
   render() {
     return (
-
         <Router>
           <div>
             <ButtonAppBar AuthStatus={this.state.authState} updateData={this.updateData}/>
@@ -22,10 +21,6 @@ class App extends React.Component{
               <Route exact path="/">
                 <Main updateData={this.updateData}/>
               </Route>
-
-              {/*<Route path={"/:topicId"}>*/}
-              {/*  <Redirect updateData={this.updateData}/>*/}
-              {/*</Route>*/}
             </Switch>
           </div>
         </Router>

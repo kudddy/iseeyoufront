@@ -58,7 +58,7 @@ class ButtonAppBar extends React.Component{
             button = <Button color="inherit" onClick={redirectMain} disabled={true}>Redirector</Button>
         }else {
             console.log("в тру")
-            button = <Button color="inherit" onClick={redirectMain}>Redirector</Button>
+            button = <Button color="inherit" onClick={redirectMain}>FINDME</Button>
 
         }
 

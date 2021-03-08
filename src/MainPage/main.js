@@ -1,29 +1,24 @@
 import React from 'react';
 import './index.css';
 import {withRouter} from 'react-router-dom'
-//css
-import Grid from "@material-ui/core/Grid";
-
-import Typography from "@material-ui/core/Typography";
-import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown'
-
-import {withStyles} from "@material-ui/styles";
+import axios from 'axios';
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import TextField from '@material-ui/core/TextField';
 
+//css
+import {withStyles} from "@material-ui/styles";
+import Grid from "@material-ui/core/Grid";
 import {CircularProgress} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-
-import axios from 'axios';
-import {red} from "@material-ui/core/colors";
-
+import Button from "@material-ui/core/Button";
+import InfoIcon from '@material-ui/icons/Info';
+import Typography from "@material-ui/core/Typography";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import InfoIcon from '@material-ui/icons/Info';
+
+import {red} from "@material-ui/core/colors";
+
 
 const useStyles = (theme) => ({
     root: {
@@ -83,7 +78,7 @@ class Main extends React.Component {
             isLoading: false,
         }
 
-        this.handleClick = this.handleClick.bind(this);
+        // this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
     }
@@ -96,22 +91,23 @@ class Main extends React.Component {
         console.log(this.props.history)
         this.probs.history.go(+1)
     }
-    handleClick (){
-        if (this.nameTextInput !== null) {
-
-            this.setState({
-                isLoading: false,
-            });
-        }
-    }
+    // handleClick (){
+    //     if (this.nameTextInput !== null) {
+    //
+    //         this.setState({
+    //             isLoading: false,
+    //         });
+    //     }
+    // }
     handleChange(selectorFiles)
     {
         console.log(selectorFiles[0]);
         let form_data = new FormData();
 
         form_data.append('image', selectorFiles[0]);
-        const base_url = process.env.REACT_APP_BACKEND_HOST
-        let url = base_url+'check_similarity/0.8/3/';
+        // const base_url = process.env.REACT_APP_BACKEND_HOST
+        // TODO hard code uid model
+        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -121,44 +117,17 @@ class Main extends React.Component {
             .catch(err => console.log(err))
     }
 
-    componentDidMount () {
-
-
-        ReactDOM.findDOMNode(this.nameTextInput).focus();
-
-    }
-    componentDidUpdate (prevProps, prevState){
-
-
-
-        console.log(this.nameTextInput.value)
-
-    }
-
     render (){
 
         const { classes } = this.props;
 
         const { json, isLoading } = this.state;
-        // TODO удалить
-        let text
-
-        text = "Введите название аккаунта"
-
-
-        // первая загрузка - ничего
-        // нажимаю на копку - загрузить фото -(во время загрузки рисуем значек загрузки)
-        // после загрузки отрисовываем экран с фотографиями или если нет - экран с сообщением что ничего не найдено
-
-        // пустой пайлоад и isloading - false - первый раз на экране
         let loading
         if (json.length ===0 && !isLoading){
-            console.log("первый раз на экране")
             loading = null
 
         } else{
             if (!isLoading){
-                console.log("ждем загрузку и выводим загрузку")
                 loading = <div className="row">
                     {/*<ButtonAppBar />*/}
 
@@ -177,12 +146,10 @@ class Main extends React.Component {
 
 
             } else {
-                console.log("выводим фотографии")
 
                 if (json["STATUS"]){
-                    console.log("ответ положительный, рисуем фото")
 
-                    let tileData = new Array();
+                    let tileData = [];
 
                     json["PAYLOAD"]["result"].forEach(function (item){
                         tileData.push({
@@ -213,10 +180,7 @@ class Main extends React.Component {
                                     </GridList>
                                     </div>
 
-                    console.log(tileData)
-
                 } else {
-                    console.log("рисуем заглужку")
                     loading = <Typography align="center" variant="h4">Ничего не найдено, попробуйте загрузить др</Typography>
                 }
 
@@ -234,26 +198,19 @@ class Main extends React.Component {
                           style={{ minHeight: '60vh' }}>
                         <Grid className={classes.interText} item xs={12}>
 
-                            <Typography align="center" variant="h4">Найти в базе N2D</Typography>
+                            <Typography align="center" variant="h4">Найди меня в отражении огней ночной тусовке</Typography>
 
                             <br/>
-                            <Typography align="center" variant="h6">Вставьте ссылку или фото лица человека, которого хотите найти</Typography>
+                            <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
 
                         </Grid>
                         <br/>
 
-                        <form className={classes.input} noValidate autoComplete="off">
-                            <TextField id="outlined-basic" label="Поле для ввода" variant="outlined"
-                                       inputRef={(ref)=> this.nameTextInput = ref}
-                                       helperText = {text}/>
-
-                        </form>
 
 
                         <br/>
                         <Grid direction="column" justify="space-around">
 
-                            <Button className={classes.button} onClick={this.handleClick}>Получить</Button>
                             <input
                                 accept="image/*"
                                 className={classes.inputButton}
