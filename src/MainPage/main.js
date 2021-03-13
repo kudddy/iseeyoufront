@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.css';
 import {withRouter} from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
 import axios from 'axios';
 import PropTypes from "prop-types";
 
@@ -63,6 +62,9 @@ const useStyles = (theme) => ({
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
+    },
+    buttonMore:{
+        textAlign:'center'
     }
 
 });
@@ -76,8 +78,10 @@ class Main extends React.Component {
         this.state = {
             json: [],
             isLoading: false,
-            ClickMe: false
+            ClickMe: false,
+            Position:[0, 6]
         }
+        this.handleModePic = this.handleModePic.bind(this);
         this.handleRedirect = this.handleRedirect.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
@@ -95,13 +99,13 @@ class Main extends React.Component {
     {
         let form_data = new FormData();
 
-        this.setState({ClickMe: true});
+        this.setState({ClickMe: true, Position:[0, 6]});
+
 
         form_data.append('image', selectorFiles[0]);
         // for local debug
         const base_url = process.env.REACT_APP_BACKEND_HOST;
-        console.log("lol")
-        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
         // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
         axios.post(url, form_data, {
@@ -121,14 +125,33 @@ class Main extends React.Component {
         // this.props.history.push("/image/"+ img_info)
         const win = window.open("/image/"+ img_info, "_blank");
         win.focus();
-        console.log(img_info)
+    }
+
+    handleModePic(){
+        const { Position } = this.state;
+
+        const slc = 6
+
+        let newPos = []
+        let PositionOne = Position[0]
+        let PositionTwo = Position[1]
+
+        newPos.push(PositionOne + slc)
+
+        newPos.push(PositionTwo + slc)
+
+
+
+
+
+        this.setState({Position: newPos})
     }
 
     render (){
 
         const { classes } = this.props;
 
-        const {ClickMe, json, isLoading } = this.state;
+        const {Position, ClickMe, json, isLoading } = this.state;
         let loading
 
         if (!ClickMe){
@@ -136,7 +159,6 @@ class Main extends React.Component {
         } else{
             // если кликнули но изображение еще не загрузилось
             if (!isLoading){
-                console.log("мы тут")
                 loading = <div className="row">
                     <Grid container direction="column" alignItems="center"
                           spacing={0}
@@ -155,34 +177,65 @@ class Main extends React.Component {
 
                     let tileData = [];
 
-                    json["PAYLOAD"]["result"].forEach(function (item){
-                        tileData.push({
-                            img: item,
-                            title: 'Image',
-                            author: 'author'
+                    let slicePayload = [];
+                    // проверяем теорию со слайсом
+                    // нужно проверить
+
+
+                    slicePayload = json["PAYLOAD"]["result"].slice(Position[0], Position[1])
+
+
+                    // проверка на слайс
+                    if (slicePayload.length>0){
+                        slicePayload.forEach(function (item){
+                            tileData.push({
+                                img: item,
+                                title: 'Image',
+                                author: 'author'
+                            })
                         })
-                    })
+
+                        const buttonGetMore = <Button variant="contained" color="primary" onClick={() => this.handleModePic()}>Еще</Button>
+
+                        loading =    <div><div className={classes.rootGridImg}>
+                            <GridList cellHeight={500} className={classes.gridList} cols={slicePayload.length} row={3}>
+                                {tileData.map((tile) => (
+
+                                    <GridListTile key={tile.img} cols={3}>
+                                        <img src={tile.img} alt={tile.title} />
+                                        <GridListTileBar
+                                            title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
+                                            // subtitle={<ReactMarkdown>{`Перейти по [ссылке](${tile.img} "Title") на фото в высоком разрешении.`}</ReactMarkdown>}
+                                            subtitle={`Высокое разрешение --->`}
+                                            actionIcon={
+                                                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
+                                                    <InfoIcon />
+                                                </IconButton>
+                                            }
+                                        />
+                                    </GridListTile>
+                                ))}
+
+                            </GridList>
+                        </div>
+                            <div className={classes.buttonMore}>
+                                {buttonGetMore}
+                            </div>
+
+                        </div>
+
+                    } else {
+
+                        loading = <Typography align="center" variant="h4">У нас все, загрузите еще фотоографию для
+                            продолжения.</Typography>
+                    }
 
 
-                    loading =    <div className={classes.rootGridImg}>
-                                    <GridList cellHeight={500} className={classes.gridList} cols={json["PAYLOAD"]["result"].length} row={3}>
-                                        {tileData.map((tile) => (
 
-                                            <GridListTile key={tile.img} cols={3}>
-                                                <img src={tile.img} alt={tile.title} />
-                                                <GridListTileBar
-                                                    title={`Примерная дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
-                                                    subtitle={<ReactMarkdown>{`Перейти по [ссылке](${tile.img} "Title") на фото в высоком разрешении.`}</ReactMarkdown>}
-                                                    actionIcon={
-                                                        <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
-                                                            <InfoIcon />
-                                                        </IconButton>
-                                                    }
-                                                />
-                                            </GridListTile>
-                                        ))}
-                                    </GridList>
-                                    </div>
+
+
+
+
 
                 } else {
                     loading = <Typography align="center" variant="h4">Ничего не найдено, попробуйте загрузить др</Typography>

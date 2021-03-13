@@ -50,17 +50,7 @@ class ButtonAppBar extends React.Component{
 
 
         const { classes } = this.props;
-        let button
-        console.log("смотрим что у нас при баддоне")
-        console.log(window.location.href)
-        if (window.location.href===process.env.REACT_APP_HOST){
-            console.log("в фалсе")
-            button = <Button color="inherit" onClick={redirectMain} disabled={true}>Redirector</Button>
-        }else {
-            console.log("в тру")
-            button = <Button color="inherit" onClick={redirectMain}>FINDME</Button>
-
-        }
+        let button = <Button color="inherit" onClick={redirectMain}>FINDME</Button>
 
         return (
             <div className={classes.root}>
