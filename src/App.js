@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import ButtonAppBar from "./HeaderComponent/Navigation";
 import Main from "./MainPage/main";
+import ImageInfo from "./ImageInfoAndComments/main"
 
 class App extends React.Component{
   state = {
@@ -20,6 +21,9 @@ class App extends React.Component{
             <Switch>
               <Route exact path="/">
                 <Main updateData={this.updateData}/>
+              </Route>
+              <Route exact path="/image/:imgdata">
+                <ImageInfo/>
               </Route>
             </Switch>
           </div>

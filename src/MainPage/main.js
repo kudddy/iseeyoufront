@@ -76,9 +76,9 @@ class Main extends React.Component {
         this.state = {
             json: [],
             isLoading: false,
+            ClickMe: false
         }
-
-        // this.handleClick = this.handleClick.bind(this);
+        this.handleRedirect = this.handleRedirect.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
     }
@@ -91,23 +91,19 @@ class Main extends React.Component {
         console.log(this.props.history)
         this.probs.history.go(+1)
     }
-    // handleClick (){
-    //     if (this.nameTextInput !== null) {
-    //
-    //         this.setState({
-    //             isLoading: false,
-    //         });
-    //     }
-    // }
     handleChange(selectorFiles)
     {
-        console.log(selectorFiles[0]);
         let form_data = new FormData();
 
+        this.setState({ClickMe: true});
+
         form_data.append('image', selectorFiles[0]);
-        // const base_url = process.env.REACT_APP_BACKEND_HOST
+        // for local debug
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        console.log("lol")
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
         // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
+        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -117,20 +113,31 @@ class Main extends React.Component {
             .catch(err => console.log(err))
     }
 
+    handleRedirect(img){
+
+        let img_info = img.split("ru/")[1]
+            .split('.')[0].replaceAll('/','-')
+
+        // this.props.history.push("/image/"+ img_info)
+        const win = window.open("/image/"+ img_info, "_blank");
+        win.focus();
+        console.log(img_info)
+    }
+
     render (){
 
         const { classes } = this.props;
 
-        const { json, isLoading } = this.state;
+        const {ClickMe, json, isLoading } = this.state;
         let loading
-        if (json.length ===0 && !isLoading){
+
+        if (!ClickMe){
             loading = null
-
         } else{
+            // если кликнули но изображение еще не загрузилось
             if (!isLoading){
+                console.log("мы тут")
                 loading = <div className="row">
-                    {/*<ButtonAppBar />*/}
-
                     <Grid container direction="column" alignItems="center"
                           spacing={0}
                           justify="center"
@@ -141,10 +148,7 @@ class Main extends React.Component {
                             </div>
                         </Grid>
                     </Grid>
-
                 </div>
-
-
             } else {
 
                 if (json["STATUS"]){
@@ -170,7 +174,7 @@ class Main extends React.Component {
                                                     title={`Примерная дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
                                                     subtitle={<ReactMarkdown>{`Перейти по [ссылке](${tile.img} "Title") на фото в высоком разрешении.`}</ReactMarkdown>}
                                                     actionIcon={
-                                                        <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
+                                                        <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
                                                             <InfoIcon />
                                                         </IconButton>
                                                     }
@@ -197,18 +201,12 @@ class Main extends React.Component {
                           justify="center"
                           style={{ minHeight: '60vh' }}>
                         <Grid className={classes.interText} item xs={12}>
-
                             <Typography align="center" variant="h4">Найди меня в отражении огней ночной тусовке</Typography>
 
                             <br/>
                             <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
 
                         </Grid>
-                        <br/>
-
-
-
-                        <br/>
                         <Grid direction="column" justify="space-around">
 
                             <input
@@ -225,18 +223,8 @@ class Main extends React.Component {
                                 </Button>
                             </label>
                         </Grid>
-
+                        {loading}
                     </Grid>
-                    {loading}
-
-                    {/*<input accept="image/*" className={classes.inputButton} id="icon-button-file" type="file" />*/}
-                    {/*<label htmlFor="icon-button-file">*/}
-                    {/*    <IconButton color="primary" aria-label="upload picture" component="span">*/}
-                    {/*        <PhotoCamera />*/}
-                    {/*    </IconButton>*/}
-                    {/*</label>*/}
-
-
 
                 </div>
 
