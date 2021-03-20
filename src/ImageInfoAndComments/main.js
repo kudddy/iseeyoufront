@@ -16,7 +16,7 @@ const useStyles = (theme) => ({
         flexGrow: 1,
     },
     appBar:{
-        background : '#2E3B55'
+        background : '#a0a0a0'
     },
     mainImg:{
         textAlign: "center"

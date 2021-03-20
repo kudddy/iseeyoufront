@@ -3,6 +3,9 @@ import './index.css';
 import {withRouter} from 'react-router-dom'
 import axios from 'axios';
 import PropTypes from "prop-types";
+import ReactMarkdown from 'react-markdown'
+
+import GlitchText from 'react-glitch-effect/core/GlitchText';
 
 //css
 import {withStyles} from "@material-ui/styles";
@@ -21,7 +24,7 @@ import {red} from "@material-ui/core/colors";
 
 const useStyles = (theme) => ({
     root: {
-        minWidth: 275,
+        minWidth: 50,
         background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
     },
     bullet: {
@@ -44,31 +47,68 @@ const useStyles = (theme) => ({
         },
     },
     button:{
-        background : '#3f51b5',
-        color:"#fff"
+        // background : '#3f51b5',
+        // color:"#fff"
     },
     inputButton:{
         display: 'none'
     },
     rootGridImg: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
+        // display: 'flex',
+        // flexWrap: 'wrap',
+        // justifyContent: 'space-around',
+        // overflow: 'hidden',
+        height: 'auto',
     },
     gridList: {
-        width: 1000,
-        height: 1000,
+        // width: '1000',
+        // height: '1000',
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
     buttonMore:{
         textAlign:'center'
+    },
+    RealImg:{
+        // width: 'auto',
+        height: 'auto',
+    },
+    mainText:{
+        fontSize: "48px",
+        color: "#ffb200",
+        textAlign:'center'
+
+    },
+    infoText:{
+        color: "#a0a0a0"
+    },
+    mainButton:{
+        backgroundColor:"#a0a0a0",
+        fontSize: "25px"
     }
+//     item: {
+//         left: "2px",
+//         "-webkit-animation": "glytch0 0.15s infinite linear alternate-reverse",
+//         animation: "glytch0 0.15s infinite linear alternate-reverse",
+//         fontSize: "48px",
+//         display: "block",
+//         fontFamily: "Roboto Mono",
+//         fontWeight: 900,
+//         color: "#ffb200",
+//         position: "relative",
+//         // fontSize: "70px",
+//         lineHeight: "53px",
+//         // -webkit-user-select: none;
+//         // -moz-user-select: none;
+//         // -ms-user-select: none;
+//
+//         letterSpacing: "10px",
+//         transition: "ease 0.5s opacity, color ease 0.3s"
+// }
+
 
 });
-
 
 class Main extends React.Component {
 
@@ -104,10 +144,12 @@ class Main extends React.Component {
 
         form_data.append('image', selectorFiles[0]);
         // for local debug
+
+        //check_debug mode
         const base_url = process.env.REACT_APP_BACKEND_HOST;
-        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.5/45/';
         // TODO hard code uid model
-        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/9/';
+        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -148,8 +190,14 @@ class Main extends React.Component {
     }
 
     render (){
-
         const { classes } = this.props;
+
+        let mainText = <div _ngcontent-c6="" className="lol">
+            <div _ngcontent-c6="" className={classes.item}>ОЧЕНЬ<span> </span>ТЕМНЫЕ<span> </span>ДЕЛА</div>
+        </div>
+
+
+
 
         const {Position, ClickMe, json, isLoading } = this.state;
         let loading
@@ -195,18 +243,19 @@ class Main extends React.Component {
                             })
                         })
 
-                        const buttonGetMore = <Button variant="contained" color="primary" onClick={() => this.handleModePic()}>Еще</Button>
+
+                        const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
 
                         loading =    <div><div className={classes.rootGridImg}>
-                            <GridList cellHeight={500} className={classes.gridList} cols={slicePayload.length} row={3}>
+                            <GridList cellHeight={250} cols={1}>
                                 {tileData.map((tile) => (
 
-                                    <GridListTile key={tile.img} cols={3}>
+                                    <GridListTile key={tile.img}>
                                         <img src={tile.img} alt={tile.title} />
                                         <GridListTileBar
                                             title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
-                                            // subtitle={<ReactMarkdown>{`Перейти по [ссылке](${tile.img} "Title") на фото в высоком разрешении.`}</ReactMarkdown>}
-                                            subtitle={`Высокое разрешение --->`}
+                                            subtitle={<ReactMarkdown>{`Высокое разрешение [--->](${tile.img}).`}</ReactMarkdown>}
+                                            // subtitle={`Высокое разрешение --->`}
                                             actionIcon={
                                                 <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
                                                     <InfoIcon />
@@ -221,7 +270,9 @@ class Main extends React.Component {
                             <div className={classes.buttonMore}>
                                 {buttonGetMore}
                             </div>
-
+                            <br/>
+                            <br/>
+                            <br/>
                         </div>
 
                     } else {
@@ -254,11 +305,17 @@ class Main extends React.Component {
                           justify="center"
                           style={{ minHeight: '60vh' }}>
                         <Grid className={classes.interText} item xs={12}>
-                            <Typography align="center" variant="h4">Найди меня в отражении огней ночной тусовке</Typography>
+                            <div className={classes.mainText}>
+                                     <GlitchText component='h1'>
+                                       I see You
+                                     </GlitchText>
+                            </div>
+                            <div className={classes.infoText}>
+                                <Typography align="center" variant="h4">Найди меня в отражении огней ночных тусовок</Typography>
 
-                            <br/>
-                            <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
-
+                                <br/>
+                                <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
+                            </div>
                         </Grid>
                         <Grid direction="column" justify="space-around">
 
@@ -270,11 +327,15 @@ class Main extends React.Component {
                                 type="file"
                                 onChange={ (e) => this.handleChange(e.target.files) }
                             />
-                            <label htmlFor="contained-button-file">
-                                <Button variant="contained" color="primary" component="span">
-                                    Upload
-                                </Button>
-                            </label>
+
+                                <label htmlFor="contained-button-file">
+                                    <div className={classes.mainButton}>
+                                    <Button variant="contained" color="#a0a0a0" component="span">
+                                        Upload
+                                    </Button>
+                                    </div>
+                                </label>
+
                         </Grid>
                         {loading}
                     </Grid>

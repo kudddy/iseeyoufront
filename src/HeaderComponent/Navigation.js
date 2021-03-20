@@ -19,7 +19,7 @@ const useStyles = (theme) => ({
         flexGrow: 1,
     },
     appBar:{
-        background : '#2E3B55'
+        background : '#262626'
     }
 
 });
@@ -50,7 +50,7 @@ class ButtonAppBar extends React.Component{
 
 
         const { classes } = this.props;
-        let button = <Button color="inherit" onClick={redirectMain}>FINDME</Button>
+        let button = <Button color="inherit" onClick={redirectMain}>I SEE YOU</Button>
 
         return (
             <div className={classes.root}>
