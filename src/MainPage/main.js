@@ -191,14 +191,6 @@ class Main extends React.Component {
 
     render (){
         const { classes } = this.props;
-
-        let mainText = <div _ngcontent-c6="" className="lol">
-            <div _ngcontent-c6="" className={classes.item}>ОЧЕНЬ<span> </span>ТЕМНЫЕ<span> </span>ДЕЛА</div>
-        </div>
-
-
-
-
         const {Position, ClickMe, json, isLoading } = this.state;
         let loading
 
