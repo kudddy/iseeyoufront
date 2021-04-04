@@ -57,8 +57,7 @@ const useStyles = (theme) => ({
         // display: 'flex',
         // flexWrap: 'wrap',
         // justifyContent: 'space-around',
-        // overflow: 'hidden',
-        height: 'auto',
+        // overflow: 'hidden'
     },
     gridList: {
         // width: '1000',
@@ -72,7 +71,7 @@ const useStyles = (theme) => ({
     },
     RealImg:{
         // width: 'auto',
-        height: 'auto',
+        top: "100%"
     },
     mainText:{
         fontSize: "48px",
@@ -85,7 +84,6 @@ const useStyles = (theme) => ({
     },
     mainButton:{
         backgroundColor:"#a0a0a0",
-        fontSize: "25px"
     }
 //     item: {
 //         left: "2px",
@@ -121,6 +119,7 @@ class Main extends React.Component {
             ClickMe: false,
             Position:[0, 6]
         }
+        this.handleToBegin = this.handleToBegin.bind(this);
         this.handleModePic = this.handleModePic.bind(this);
         this.handleRedirect = this.handleRedirect.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -146,10 +145,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.5/45/';
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -182,11 +181,12 @@ class Main extends React.Component {
 
         newPos.push(PositionTwo + slc)
 
-
-
-
-
         this.setState({Position: newPos})
+    }
+
+    handleToBegin(){
+        this.setState({Position: [0, 6]})
+
     }
 
     render (){
@@ -224,6 +224,14 @@ class Main extends React.Component {
 
                     slicePayload = json["PAYLOAD"]["result"].slice(Position[0], Position[1])
 
+                    let buttonToBegin
+                    if (Position[0] !== 0){
+                        buttonToBegin = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleToBegin()}>В начало</Button>
+
+                    } else {
+                        buttonToBegin = null
+                    }
+
 
                     // проверка на слайс
                     if (slicePayload.length>0){
@@ -238,11 +246,12 @@ class Main extends React.Component {
 
                         const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
 
-                        loading =    <div><div className={classes.rootGridImg}>
+
+                        loading =    <div><div>
                             <GridList cellHeight={250} cols={1}>
                                 {tileData.map((tile) => (
 
-                                    <GridListTile key={tile.img}>
+                                    <GridListTile key={tile.img} >
                                         <img src={tile.img} alt={tile.title} />
                                         <GridListTileBar
                                             title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
@@ -253,13 +262,15 @@ class Main extends React.Component {
                                                     <InfoIcon />
                                                 </IconButton>
                                             }
-                                        />
+                                        />F
                                     </GridListTile>
                                 ))}
 
                             </GridList>
                         </div>
+                            <br/>
                             <div className={classes.buttonMore}>
+                                {buttonToBegin}
                                 {buttonGetMore}
                             </div>
                             <br/>
@@ -269,19 +280,20 @@ class Main extends React.Component {
 
                     } else {
 
-                        loading = <Typography align="center" variant="h4">У нас все, загрузите еще фотоографию для
-                            продолжения.</Typography>
+                        // loading = <Typography className={classes.infoText} align="center" variant="h4">У нас все, загрузите еще фотографию для продолжения.</Typography>
+
+                        loading = <div className={classes.buttonMore}>
+                            <br/>
+                            <Typography className={classes.infoText} align="center" variant="h4">У нас все, загрузите еще фотографию для продолжения.</Typography>
+                            {buttonToBegin}
+                        </div>
+
                     }
 
 
-
-
-
-
-
-
                 } else {
-                    loading = <Typography align="center" variant="h4">Ничего не найдено, попробуйте загрузить др</Typography>
+
+                    loading = <Typography className={classes.infoText} align="center" variant="h4">Ничего не найдено, попробуйте загрузить др</Typography>
                 }
 
             }
@@ -309,8 +321,8 @@ class Main extends React.Component {
                                 <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
                             </div>
                         </Grid>
+                        <br/>
                         <Grid direction="column" justify="space-around">
-
                             <input
                                 accept="image/*"
                                 className={classes.inputButton}
@@ -319,16 +331,16 @@ class Main extends React.Component {
                                 type="file"
                                 onChange={ (e) => this.handleChange(e.target.files) }
                             />
-
                                 <label htmlFor="contained-button-file">
                                     <div className={classes.mainButton}>
                                     <Button variant="contained" color="#a0a0a0" component="span">
-                                        Upload
+                                        Загрузить
                                     </Button>
                                     </div>
                                 </label>
 
                         </Grid>
+                        <br/>
                         {loading}
                     </Grid>
 
