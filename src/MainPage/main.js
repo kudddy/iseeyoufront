@@ -53,16 +53,6 @@ const useStyles = (theme) => ({
     inputButton:{
         display: 'none'
     },
-    rootGridImg: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
-        // justifyContent: 'space-around',
-        // overflow: 'hidden'
-    },
-    gridList: {
-        // width: '1000',
-        // height: '1000',
-    },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
@@ -70,14 +60,12 @@ const useStyles = (theme) => ({
         textAlign:'center'
     },
     RealImg:{
-        // width: 'auto',
         top: "100%"
     },
     mainText:{
         fontSize: "48px",
         color: "#ffb200",
         textAlign:'center'
-
     },
     infoText:{
         color: "#a0a0a0"
@@ -85,27 +73,6 @@ const useStyles = (theme) => ({
     mainButton:{
         backgroundColor:"#a0a0a0",
     }
-//     item: {
-//         left: "2px",
-//         "-webkit-animation": "glytch0 0.15s infinite linear alternate-reverse",
-//         animation: "glytch0 0.15s infinite linear alternate-reverse",
-//         fontSize: "48px",
-//         display: "block",
-//         fontFamily: "Roboto Mono",
-//         fontWeight: 900,
-//         color: "#ffb200",
-//         position: "relative",
-//         // fontSize: "70px",
-//         lineHeight: "53px",
-//         // -webkit-user-select: none;
-//         // -moz-user-select: none;
-//         // -ms-user-select: none;
-//
-//         letterSpacing: "10px",
-//         transition: "ease 0.5s opacity, color ease 0.3s"
-// }
-
-
 });
 
 class Main extends React.Component {
@@ -145,10 +112,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -218,9 +185,6 @@ class Main extends React.Component {
                     let tileData = [];
 
                     let slicePayload = [];
-                    // проверяем теорию со слайсом
-                    // нужно проверить
-
 
                     slicePayload = json["PAYLOAD"]["result"].slice(Position[0], Position[1])
 
@@ -232,8 +196,6 @@ class Main extends React.Component {
                         buttonToBegin = null
                     }
 
-
-                    // проверка на слайс
                     if (slicePayload.length>0){
                         slicePayload.forEach(function (item){
                             tileData.push({
@@ -246,11 +208,22 @@ class Main extends React.Component {
 
                         const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
                         let gridCols
-                        if (window.screen.width > 1000){
-                            gridCols = 3
-                        } else{
+
+                        console.log(window.screen.availWidth)
+                        console.log(window.screen.availHeight)
+
+                        if (window.screen.availWidth <= 500){
                             gridCols = 1
+                        } else if (window.screen.availWidth > 500 && window.screen.availWidth < 1024) {
+                            gridCols = 2
+                        } else {
+                            gridCols = 3
                         }
+                        // if (window.screen.width > 1000){
+                        //     gridCols = 3
+                        // } else{
+                        //     gridCols = 1
+                        // }
                         loading =    <div><div>
                             <GridList cellHeight={250} cols={gridCols}>
                                 {tileData.map((tile) => (
@@ -301,9 +274,6 @@ class Main extends React.Component {
 
             }
         }
-
-
-
         // TODO должна быть ссылка на N2D в шапке профиля
             return (
                 <div className="row">
@@ -357,5 +327,4 @@ Main.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-// export default withRouter(Auth)
 export default withStyles(useStyles)(withRouter(Main))

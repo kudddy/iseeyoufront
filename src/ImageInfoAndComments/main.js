@@ -19,7 +19,9 @@ const useStyles = (theme) => ({
         background : '#a0a0a0'
     },
     mainImg:{
-        textAlign: "center"
+        maxWidth: "100%",
+        height: "auto",
+        textAlign:'center'
     }
 
 
