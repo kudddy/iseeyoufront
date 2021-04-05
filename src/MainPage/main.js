@@ -145,10 +145,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        const base_url = process.env.REACT_APP_BACKEND_HOST;
-        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        // const base_url = process.env.REACT_APP_BACKEND_HOST;
+        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -245,24 +245,27 @@ class Main extends React.Component {
 
 
                         const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
-
-
+                        let gridCols
+                        if (window.screen.width > 1000){
+                            gridCols = 3
+                        } else{
+                            gridCols = 1
+                        }
                         loading =    <div><div>
-                            <GridList cellHeight={250} cols={1}>
+                            <GridList cellHeight={250} cols={gridCols}>
                                 {tileData.map((tile) => (
 
                                     <GridListTile key={tile.img} >
-                                        <img src={tile.img} alt={tile.title} />
+                                        <img src={tile.img} alt={tile.title}/>
                                         <GridListTileBar
                                             title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
                                             subtitle={<ReactMarkdown>{`Высокое разрешение [--->](${tile.img}).`}</ReactMarkdown>}
-                                            // subtitle={`Высокое разрешение --->`}
                                             actionIcon={
                                                 <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
                                                     <InfoIcon />
                                                 </IconButton>
                                             }
-                                        />F
+                                        />
                                     </GridListTile>
                                 ))}
 
