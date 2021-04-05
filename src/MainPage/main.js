@@ -22,6 +22,10 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import {red} from "@material-ui/core/colors";
 
 
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
 const useStyles = (theme) => ({
     root: {
         minWidth: 50,
@@ -112,10 +116,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        const base_url = process.env.REACT_APP_BACKEND_HOST;
-        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        // const base_url = process.env.REACT_APP_BACKEND_HOST;
+        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -127,8 +131,9 @@ class Main extends React.Component {
 
     handleRedirect(img){
 
-        let img_info = img.split("ru/")[1]
-            .split('.')[0].replaceAll('/','-')
+
+        let img_info = replaceAll(img.split("ru/")[1]
+            .split('.')[0], '/', '-')
 
         // this.props.history.push("/image/"+ img_info)
         const win = window.open("/image/"+ img_info, "_blank");
@@ -209,8 +214,6 @@ class Main extends React.Component {
                         const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
                         let gridCols
 
-                        console.log(window.screen.availWidth)
-                        console.log(window.screen.availHeight)
 
                         if (window.screen.availWidth <= 500){
                             gridCols = 1
@@ -229,7 +232,7 @@ class Main extends React.Component {
                                 {tileData.map((tile) => (
 
                                     <GridListTile key={tile.img} >
-                                        <img src={tile.img} alt={tile.title}/>
+                                        <img src={tile.img} alt={tile.title} style={{ display: 'block' , maxWidth: "95%", margin: "0 auto"}}/>
                                         <GridListTileBar
                                             title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
                                             subtitle={<ReactMarkdown>{`Высокое разрешение [--->](${tile.img}).`}</ReactMarkdown>}
