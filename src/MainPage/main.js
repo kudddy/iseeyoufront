@@ -26,6 +26,16 @@ function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
+const ENV = process.env.REACT_APP_ENV
+
+const MODEL_TOKEN = process.env.REACT_APP_MODEL_TOKEN
+
+const MODEL_TRESH = process.env.REACT_APP_MODEL_TRESHHOLD
+
+const MODEL_INPUT_COUNT = process.env.REACT_APP_MODEL_INPUT_COUNT
+
+const BASE_URL = "check_similarity/" + MODEL_TOKEN + "/" + MODEL_TRESH + "/" + MODEL_INPUT_COUNT + "/"
+
 const useStyles = (theme) => ({
     root: {
         minWidth: 50,
@@ -115,11 +125,14 @@ class Main extends React.Component {
         form_data.append('image', selectorFiles[0]);
         // for local debug lala check builds дфдфд
 
-        //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
-        // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        let url
+        if (ENV === 'dev'){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + BASE_URL;
+        } else {
+            url = BASE_URL;
+        }
+
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
