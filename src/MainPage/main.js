@@ -113,7 +113,7 @@ class Main extends React.Component {
 
 
         form_data.append('image', selectorFiles[0]);
-        // for local debug lala check builds
+        // for local debug lala check builds дфдфд
 
         //check_debug mode
         // const base_url = process.env.REACT_APP_BACKEND_HOST;
