@@ -117,11 +117,9 @@ class Main extends React.Component {
     }
     handleChange(selectorFiles)
     {
+        this.setState({ClickMe: true, Position:[0, 6], isLoading: false});
+
         let form_data = new FormData();
-
-        this.setState({ClickMe: true, Position:[0, 6]});
-
-
         form_data.append('image', selectorFiles[0]);
         // for local debug lala check builds дфдфд
 
@@ -175,6 +173,8 @@ class Main extends React.Component {
     render (){
         const { classes } = this.props;
         const {Position, ClickMe, json, isLoading } = this.state;
+        console.log("смотрим что в isLoading")
+        console.log(isLoading)
         let loading
 
         if (!ClickMe){
@@ -220,8 +220,6 @@ class Main extends React.Component {
                                 author: 'author'
                             })
                         })
-
-
                         const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
                         let gridCols
 
@@ -233,11 +231,6 @@ class Main extends React.Component {
                         } else {
                             gridCols = 3
                         }
-                        // if (window.screen.width > 1000){
-                        //     gridCols = 3
-                        // } else{
-                        //     gridCols = 1
-                        // }
                         loading =    <div><div>
                             <GridList cellHeight={250} cols={gridCols}>
                                 {tileData.map((tile) => (
