@@ -173,8 +173,6 @@ class Main extends React.Component {
     render (){
         const { classes } = this.props;
         const {Position, ClickMe, json, isLoading } = this.state;
-        console.log("смотрим что в isLoading")
-        console.log(isLoading)
         let loading
 
         if (!ClickMe){
