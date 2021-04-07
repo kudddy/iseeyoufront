@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './index.css';
 import {withRouter} from 'react-router-dom'
 import axios from 'axios';
@@ -114,6 +115,9 @@ class Main extends React.Component {
     handleForward = () => {
         console.log(this.props.history)
         this.probs.history.go(+1)
+    }
+    componentDidUpdate(){
+        ReactDOM.findDOMNode(this.refs.myInput).focus()
     }
     handleChange(selectorFiles)
     {
@@ -307,6 +311,7 @@ class Main extends React.Component {
                                 id="contained-button-file"
                                 multiple
                                 type="file"
+                                ref="myInput"
                                 onChange={ (e) => this.handleChange(e.target.files) }
                             />
                                 <label htmlFor="contained-button-file">
