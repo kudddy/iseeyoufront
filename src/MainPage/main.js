@@ -19,6 +19,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
+
 import {red} from "@material-ui/core/colors";
 
 
@@ -116,10 +117,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -309,7 +310,8 @@ class Main extends React.Component {
                             />
                                 <label htmlFor="contained-button-file">
                                     <div className={classes.mainButton}>
-                                    <Button variant="contained" color="#a0a0a0" component="span">
+                                    <Button variant="contained"
+                                            color="#a0a0a0" component="span">
                                         Загрузить
                                     </Button>
                                     </div>
