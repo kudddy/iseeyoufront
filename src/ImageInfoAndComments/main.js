@@ -84,7 +84,8 @@ class ImageInfo extends React.Component{
         this.state = {
             json: [],
             isLoading: false,
-            width: null
+            width: null,
+            firstInter: true
         }
         this.handleAddComment = this.handleAddComment.bind(this);
     }
@@ -98,32 +99,94 @@ class ImageInfo extends React.Component{
 
     componentDidMount(prevProps, prevState, snapshot) {
 
+        const {firstInter } = this.state;
+
         this.setState({
             width: this.container.offsetWidth,
         })
+        // возможно проверка лишняя
+        if (firstInter){
 
+            // TODO повтор кода
+            let pref_param = replaceAll(this.props.match.params["imgdata"],"-", "/") + ".jpg"
 
-        const base_url = process.env.REACT_APP_BACKEND_HOST;
-        let url = base_url + 'getcomments/';
-        // TODO hard code uid model
-        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
-        axios.post(url, {
-            MESSAGE_NAME: 'GET_COMMENT',
-            "payload": {
-                "url": "fsfsdfsfsdf"
-            }
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => this.setState({json: res.data, isLoading: true}))
-            .catch(err => console.log(err))
+            const img = "https://img1.night2day.ru/" + pref_param
+
+            // запрос на чтение из базы
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            let url = base_url + 'getcomments/';
+            // TODO hard code uid model
+            // let url = 'getcomments/';
+            axios.post(url, {
+                MESSAGE_NAME: 'GET_COMMENT',
+                PAYLOAD: {
+                    url: img
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => this.setState({json: res.data, isLoading: true}))
+                .catch(err => console.log(err))
+
+            this.setState({
+                firstInter: false,
+            })
+        }
+
     }
 
 
     handleAddComment = () =>{
         console.log(this.nameTextInput.value)
+
+
+        // грубая проверка на входящие сообщения
+        if (this.nameTextInput.value !== ""){
+
+            // готовим ссылку для записи
+            let pref_param = replaceAll(this.props.match.params["imgdata"],"-", "/") + ".jpg"
+
+            const img = "https://img1.night2day.ru/" + pref_param
+
+            //пишем в базу данные по фотографии
+
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            let url = base_url + 'addcomments/';
+            // TODO hard code uid model
+            // let url = 'getcomments/';
+            axios.post(url, {
+                MESSAGE_NAME: 'ADD_COMMENT',
+                PAYLOAD: {
+                    url: img,
+                    comment: this.nameTextInput.value
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+
+
+
+            const {json } = this.state;
+
+            console.log(json)
+
+            let temp = json["PAYLOAD"]["result"]
+
+            temp.push(this.nameTextInput.value)
+
+            json["PAYLOAD"]["result"] = temp
+
+            this.setState({json: json})
+
+        }
+
+
     }
 
     render() {
@@ -135,9 +198,6 @@ class ImageInfo extends React.Component{
 
         const {width, json, isLoading } = this.state;
         const { classes } = this.props;
-
-        console.log("render")
-        console.log(width)
 
 
 
