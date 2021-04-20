@@ -20,6 +20,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
+
 import {red} from "@material-ui/core/colors";
 
 
@@ -316,7 +317,8 @@ class Main extends React.Component {
                             />
                                 <label htmlFor="contained-button-file">
                                     <div className={classes.mainButton}>
-                                    <Button variant="contained" color="#a0a0a0" component="span">
+                                    <Button variant="contained"
+                                            color="#a0a0a0" component="span">
                                         Загрузить
                                     </Button>
                                     </div>
