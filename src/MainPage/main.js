@@ -190,7 +190,7 @@ class Main extends React.Component {
 
                     let tileData = [];
 
-                    let slicePayload = [];
+                    let slicePayload;
 
                     slicePayload = json["PAYLOAD"]["result"].slice(Position[0], Position[1])
 
