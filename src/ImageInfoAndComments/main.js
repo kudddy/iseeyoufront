@@ -139,7 +139,6 @@ class ImageInfo extends React.Component{
 
 
     handleAddComment = () =>{
-        console.log(this.nameTextInput.value)
 
 
         // грубая проверка на входящие сообщения
@@ -174,7 +173,6 @@ class ImageInfo extends React.Component{
 
             const {json } = this.state;
 
-            console.log(json)
 
             let temp = json["PAYLOAD"]["result"]
 
