@@ -269,7 +269,7 @@ class ImageInfo extends React.Component{
                     <img src={img}
                          alt={img}
                          ref={el => (this.container = el)}
-                         style={{ display: 'block' , maxWidth: "70%", margin: "0 auto"}}
+                         style={{ display: 'block' , maxWidth: "100%", margin: "0 auto"}}
                     />
                     {comments}
                     {commentsPlug}
