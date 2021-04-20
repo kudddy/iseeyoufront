@@ -113,10 +113,10 @@ class ImageInfo extends React.Component{
             const img = "https://img1.night2day.ru/" + pref_param
 
             // запрос на чтение из базы
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            let url = base_url + 'getcomments/';
+            // const base_url = process.env.REACT_APP_BACKEND_HOST;
+            // let url = base_url + 'getcomments/';
             // TODO hard code uid model
-            // let url = 'getcomments/';
+            let url = 'getcomments/';
             axios.post(url, {
                 MESSAGE_NAME: 'GET_COMMENT',
                 PAYLOAD: {
@@ -152,10 +152,10 @@ class ImageInfo extends React.Component{
 
             //пишем в базу данные по фотографии
 
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            let url = base_url + 'addcomments/';
+            // const base_url = process.env.REACT_APP_BACKEND_HOST;
+            // let url = base_url + 'addcomments/';
             // TODO hard code uid model
-            // let url = 'getcomments/';
+            let url = 'addcomments/';
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_COMMENT',
                 PAYLOAD: {
