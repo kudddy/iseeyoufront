@@ -10,7 +10,6 @@ import GlitchText from 'react-glitch-effect/core/GlitchText';
 //css
 import {withStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
-import {CircularProgress} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Button from "@material-ui/core/Button";
 import InfoIcon from '@material-ui/icons/Info';
@@ -18,9 +17,9 @@ import Typography from "@material-ui/core/Typography";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import {CircularProgress} from '@material-ui/core';
 
 
-import {red} from "@material-ui/core/colors";
 
 
 function replaceAll(str, find, replace) {
@@ -117,10 +116,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -172,18 +171,10 @@ class Main extends React.Component {
         } else{
             // если кликнули но изображение еще не загрузилось
             if (!isLoading){
-                loading = <div className="row">
-                    <Grid container direction="column" alignItems="center"
-                          spacing={0}
-                          justify="center"
-                          style={{ minHeight: '60vh' , background: red}}>
-                        <Grid item xs={12}>
-                            <div className="col-md-1 col-md-offset-1">
-                                <CircularProgress />
-                            </div>
-                        </Grid>
-                    </Grid>
-                </div>
+                loading =
+                    <div className="row" style={{position: 'relative', top: "20px"}}>
+                        <CircularProgress style={{marginLeft: '50%'}}/>
+                    </div>
             } else {
 
                 if (json["STATUS"]){
@@ -293,7 +284,6 @@ class Main extends React.Component {
                             </div>
                             <div className={classes.infoText}>
                                 <Typography align="center" variant="h4">Найди меня в отражении огней ночных тусовок</Typography>
-
                                 <br/>
                                 <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
                             </div>

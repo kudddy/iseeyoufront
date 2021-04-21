@@ -1,17 +1,15 @@
 import {withRouter} from 'react-router-dom';
 import PropTypes from "prop-types";
-
 import React from "react";
-import {withStyles} from "@material-ui/styles";
 import axios from 'axios';
 
+import {withStyles} from "@material-ui/styles";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import {red} from "@material-ui/core/colors";
-import {CircularProgress} from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
+
+import {CircularProgress} from "@material-ui/core";
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
@@ -74,6 +72,9 @@ const useStyles = (theme) => ({
     },
     imageWidth: {
         margin: "0 auto"
+    },
+    loader: {
+        alignItems: 'center'
     }
 });
 
@@ -113,10 +114,10 @@ class ImageInfo extends React.Component{
             const img = "https://img1.night2day.ru/" + pref_param
 
             // запрос на чтение из базы
-            // const base_url = process.env.REACT_APP_BACKEND_HOST;
-            // let url = base_url + 'getcomments/';
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            let url = base_url + 'getcomments/';
             // TODO hard code uid model
-            let url = 'getcomments/';
+            // let url = 'getcomments/';
             axios.post(url, {
                 MESSAGE_NAME: 'GET_COMMENT',
                 PAYLOAD: {
@@ -151,10 +152,10 @@ class ImageInfo extends React.Component{
 
             //пишем в базу данные по фотографии
 
-            // const base_url = process.env.REACT_APP_BACKEND_HOST;
-            // let url = base_url + 'addcomments/';
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            let url = base_url + 'addcomments/';
             // TODO hard code uid model
-            let url = 'addcomments/';
+            // let url = 'addcomments/';
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_COMMENT',
                 PAYLOAD: {
@@ -203,18 +204,10 @@ class ImageInfo extends React.Component{
         let comments = null
         // если еще не загрузилось
         if (!isLoading){
-            commentsPlug =  <div className="row">
-                <Grid container direction="column" alignItems="center"
-                      spacing={0}
-                      justify="center"
-                      style={{ minHeight: '60vh' , background: red}}>
-                    <Grid item xs={12}>
-                        <div className="col-md-1 col-md-offset-1">
-                            <CircularProgress />
-                        </div>
-                    </Grid>
-                </Grid>
-            </div>
+            commentsPlug =
+                <div className="row" style={{position: 'relative', top: "20px"}}>
+                    <CircularProgress style={{marginLeft: '50%'}}/>
+                </div>
         } else {
 
 
@@ -223,7 +216,7 @@ class ImageInfo extends React.Component{
                     comments =
                         <div>
                             {json["PAYLOAD"]["result"].map((text) => (
-                                <div className={classes.imageWidth} style={{ width: width + "px" }}>
+                                <div className={classes.imageWidth} style={{ width: width + "px" , borderStyle: "solid", borderColor:"white", borderRadius: "5px", borderWidth :"1px"}}>
                                     <Typography variant="h5" gutterBottom className={classes.cssFocused}>
                                         {text}
                                     </Typography>
