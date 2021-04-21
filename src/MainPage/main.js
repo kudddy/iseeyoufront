@@ -116,10 +116,10 @@ class Main extends React.Component {
         // for local debug
 
         //check_debug mode
-        const base_url = process.env.REACT_APP_BACKEND_HOST;
-        let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        // const base_url = process.env.REACT_APP_BACKEND_HOST;
+        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
         // TODO hard code uid model
-        // let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'

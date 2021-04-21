@@ -114,10 +114,10 @@ class ImageInfo extends React.Component{
             const img = "https://img1.night2day.ru/" + pref_param
 
             // запрос на чтение из базы
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            let url = base_url + 'getcomments/';
+            // const base_url = process.env.REACT_APP_BACKEND_HOST;
+            // let url = base_url + 'getcomments/';
             // TODO hard code uid model
-            // let url = 'getcomments/';
+            let url = 'getcomments/';
             axios.post(url, {
                 MESSAGE_NAME: 'GET_COMMENT',
                 PAYLOAD: {
@@ -152,10 +152,10 @@ class ImageInfo extends React.Component{
 
             //пишем в базу данные по фотографии
 
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            let url = base_url + 'addcomments/';
+            // const base_url = process.env.REACT_APP_BACKEND_HOST;
+            // let url = base_url + 'addcomments/';
             // TODO hard code uid model
-            // let url = 'addcomments/';
+            let url = 'addcomments/';
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_COMMENT',
                 PAYLOAD: {
@@ -215,16 +215,23 @@ class ImageInfo extends React.Component{
                 if (json["PAYLOAD"]["result"].length > 0){
                     comments =
                         <div>
-                            {json["PAYLOAD"]["result"].map((text) => (
-                                <div className={classes.imageWidth} style={{ width: width + "px" , borderStyle: "solid", borderColor:"white", borderRadius: "5px", borderWidth :"1px"}}>
+                                <div className={classes.imageWidth} style={{ width: width + "px", color: "#a0a0a0"}}>
                                     <Typography variant="h5" gutterBottom className={classes.cssFocused}>
-                                        {text}
+                                        Знаете этого тусовщика? Есть что сказать? Напишите в комментариях...
                                     </Typography>
                                 </div>
+                            {json["PAYLOAD"]["result"].map((text) => (
 
+                                    <div className={classes.imageWidth} style={{ width: width + "px" , borderStyle: "solid", borderColor:"white", borderRadius: "5px", borderWidth :"1px"}}>
+                                            <Typography variant="h5" gutterBottom className={classes.cssFocused}>
+                                                {text}
+                                            </Typography>
+                                    </div>
                                     )
+
                                 )
                             }
+
                         </div>
                 }
             }
