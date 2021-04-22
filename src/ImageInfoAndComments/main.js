@@ -3,17 +3,26 @@ import PropTypes from "prop-types";
 import React from "react";
 import axios from 'axios';
 
+import { makeStyles } from '@material-ui/core/styles';
 import {withStyles} from "@material-ui/styles";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
-
-import {CircularProgress} from "@material-ui/core";
+import { green, pink } from '@material-ui/core/colors';
+import {Avatar, CircularProgress} from "@material-ui/core";
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
+
+const names = ["Петруха", "Клавдий Петрович", "Анфиса Чехова", "Гарлапаша Маркизовна",
+    "Юлианна Караулова", "Света", "Dima", "Konfeta", "Alex", "Ornaldo"]
+
+const colors = ["blue", "red", "green"]
+
+
+
 
 const useStyles = (theme) => ({
     root: {
@@ -51,7 +60,9 @@ const useStyles = (theme) => ({
             borderColor: `white !important`
         }
     },
-    cssFocused: { color: "white !important" },
+    cssFocused: {
+        color: "white !important"
+    },
     cssLabel: {
         color: "white"
     },
@@ -75,7 +86,10 @@ const useStyles = (theme) => ({
     },
     loader: {
         alignItems: 'center'
-    }
+    },
+    // avatarColor: {
+    //     background: colors[Math.floor(Math.random() * names.length)]
+    // }
 });
 
 class ImageInfo extends React.Component{
@@ -198,6 +212,14 @@ class ImageInfo extends React.Component{
         const {width, json, isLoading } = this.state;
         const { classes } = this.props;
 
+        let imgWidth
+        if (window.screen.availWidth <= 500){
+            imgWidth = "100%"
+        } else if (window.screen.availWidth > 500 && window.screen.availWidth < 1024) {
+            imgWidth = "80%"
+        } else {
+            imgWidth = "80%"
+        }
 
 
         let commentsPlug
@@ -222,13 +244,23 @@ class ImageInfo extends React.Component{
                                 </div>
                             {json["PAYLOAD"]["result"].map((text) => (
 
-                                    <div className={classes.imageWidth} style={{ width: width + "px" , borderStyle: "solid", borderColor:"white", borderRadius: "5px", borderWidth :"1px"}}>
-                                            <Typography variant="h5" gutterBottom className={classes.cssFocused}>
-                                                {text}
-                                            </Typography>
+                                    <div className={classes.imageWidth} style={{ width: width + "px" }}>
+                                        <div style={{ display: "inline-flex" }}>
+                                            <Avatar style={{background:colors[Math.floor(Math.random() * colors.length)]}}>H</Avatar>
+                                            <div style={{ display: "compact" }}>
+                                                <Typography variant="subtitle1" gutterBottom className={classes.cssFocused}>
+                                                    { names[Math.floor(Math.random() * names.length)]}
+                                                </Typography>
+                                                <Typography variant="subtitle2" gutterBottom className={classes.cssFocused}>
+                                                    05.11.2020
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        <Typography variant="h5" gutterBottom className={classes.cssFocused} style={{textIndent:"38px"}}>
+                                            {text}
+                                        </Typography>
                                     </div>
                                     )
-
                                 )
                             }
 
@@ -269,7 +301,7 @@ class ImageInfo extends React.Component{
                     <img src={img}
                          alt={img}
                          ref={el => (this.container = el)}
-                         style={{ display: 'block' , maxWidth: "100%", margin: "0 auto"}}
+                         style={{ display: 'block' , maxWidth: imgWidth, margin: "0 auto"}}
                     />
                     {comments}
                     {commentsPlug}
