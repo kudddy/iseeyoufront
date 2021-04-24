@@ -3,8 +3,6 @@ import './index.css';
 import {withRouter} from 'react-router-dom'
 import axios from 'axios';
 import PropTypes from "prop-types";
-import ReactMarkdown from 'react-markdown'
-
 import GlitchText from 'react-glitch-effect/core/GlitchText';
 
 //css
@@ -162,6 +160,7 @@ class Main extends React.Component {
     }
 
     render (){
+
         const { classes } = this.props;
         const {Position, ClickMe, json, isLoading } = this.state;
         let loading
@@ -169,11 +168,10 @@ class Main extends React.Component {
         if (!ClickMe){
             loading = null
         } else{
-            // если кликнули но изображение еще не загрузилось
             if (!isLoading){
                 loading =
                     <div className="row" style={{position: 'relative', top: "20px"}}>
-                        <CircularProgress style={{marginLeft: '50%'}}/>
+                        <CircularProgress/>
                     </div>
             } else {
 
@@ -222,12 +220,12 @@ class Main extends React.Component {
                         loading =    <div><div>
                             <GridList cellHeight={250} cols={gridCols}>
                                 {tileData.map((tile) => (
-
                                     <GridListTile key={tile.img} >
                                         <img src={tile.img} alt={tile.title} style={{ display: 'block' , maxWidth: "95%", margin: "0 auto"}}/>
                                         <GridListTileBar
                                             title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
-                                            subtitle={<ReactMarkdown>{`Высокое разрешение [--->](${tile.img}).`}</ReactMarkdown>}
+                                            actionPosition = 'left'
+                                            subtitle={<span>Тапните для того чтобы получить фото в высоком разрешении или <br/> оставить комментарий</span>}
                                             actionIcon={
                                                 <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
                                                     <InfoIcon />

@@ -1,15 +1,14 @@
-import {withRouter} from 'react-router-dom';
-import PropTypes from "prop-types";
 import React from "react";
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown'
+import {withRouter} from 'react-router-dom';
+import PropTypes from "prop-types";
 
-import { makeStyles } from '@material-ui/core/styles';
 import {withStyles} from "@material-ui/styles";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
-import { green, pink } from '@material-ui/core/colors';
 import {Avatar, CircularProgress} from "@material-ui/core";
 
 function replaceAll(str, find, replace) {
@@ -87,6 +86,9 @@ const useStyles = (theme) => ({
     loader: {
         alignItems: 'center'
     },
+    infoText:{
+        color: "#a0a0a0"
+    }
     // avatarColor: {
     //     background: colors[Math.floor(Math.random() * names.length)]
     // }
@@ -237,26 +239,21 @@ class ImageInfo extends React.Component{
                 if (json["PAYLOAD"]["result"].length > 0){
                     comments =
                         <div>
-                                <div className={classes.imageWidth} style={{ width: width + "px", color: "#a0a0a0"}}>
-                                    <Typography variant="h5" gutterBottom className={classes.cssFocused}>
-                                        Знаете этого тусовщика? Есть что сказать? Напишите в комментариях...
-                                    </Typography>
-                                </div>
                             {json["PAYLOAD"]["result"].map((text) => (
 
                                     <div className={classes.imageWidth} style={{ width: width + "px" }}>
                                         <div style={{ display: "inline-flex" }}>
                                             <Avatar style={{background:colors[Math.floor(Math.random() * colors.length)]}}>H</Avatar>
                                             <div style={{ display: "compact" }}>
-                                                <Typography variant="subtitle1" gutterBottom className={classes.cssFocused}>
+                                                <Typography variant="subtitle1" gutterBottom className={classes.cssFocused} style={{textIndent:"5px", marginTop:"-3px"}}>
                                                     { names[Math.floor(Math.random() * names.length)]}
                                                 </Typography>
-                                                <Typography variant="subtitle2" gutterBottom className={classes.cssFocused}>
+                                                <Typography variant="subtitle1" gutterBottom className={classes.cssFocused} style={{textIndent:"5px", marginTop:"-12px"}}>
                                                     05.11.2020
                                                 </Typography>
                                             </div>
                                         </div>
-                                        <Typography variant="h5" gutterBottom className={classes.cssFocused} style={{textIndent:"38px"}}>
+                                        <Typography variant="h5" gutterBottom className={classes.cssFocused} style={{textIndent:"45px", marginTop:"-12px"}}>
                                             {text}
                                         </Typography>
                                     </div>
@@ -298,11 +295,19 @@ class ImageInfo extends React.Component{
 
         return (
             <div className={classes.root}>
+                <Typography className={classes.infoText}
+                            align="center"
+                            variant="h4"><ReactMarkdown>{`Самые комментируемые фотографии можно найти [тут](${"/topcomment"}).`}</ReactMarkdown></Typography>
                     <img src={img}
                          alt={img}
                          ref={el => (this.container = el)}
                          style={{ display: 'block' , maxWidth: imgWidth, margin: "0 auto"}}
                     />
+                    <div className={classes.imageWidth} style={{ width: width + "px", color: "#a0a0a0"}}>
+                        <Typography variant="h5" gutterBottom className={classes.cssFocused}>
+                            Знаете этого тусовщика? Есть что сказать? Напишите в комментариях...
+                        </Typography>
+                    </div>
                     {comments}
                     {commentsPlug}
             </div>
