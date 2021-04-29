@@ -198,10 +198,16 @@ class ImageInfo extends React.Component{
             json["PAYLOAD"]["result"] = temp
 
             this.setState({json: json})
+            // обнуляем переменную
+            this.nameTextInput.value= null
 
         }
 
 
+
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
     }
 
     render() {
@@ -297,7 +303,7 @@ class ImageInfo extends React.Component{
             <div className={classes.root}>
                 <Typography className={classes.infoText}
                             align="center"
-                            variant="h4"><ReactMarkdown>{`Самые комментируемые фотографии можно найти [тут](${"/topcomment"}).`}</ReactMarkdown></Typography>
+                            variant="h4"><ReactMarkdown>{`Найти самые комментируемые фотографии можно найти по [ссылке](${"/topcomment"}).`}</ReactMarkdown></Typography>
                     <img src={img}
                          alt={img}
                          ref={el => (this.container = el)}

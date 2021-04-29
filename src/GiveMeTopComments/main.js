@@ -112,9 +112,6 @@ class GiveMeTopComments extends React.Component {
             .catch(err => console.log(err))
     }
 
-
-
-
     handleRedirect(img){
 
 
@@ -250,7 +247,7 @@ class GiveMeTopComments extends React.Component {
         // TODO должна быть ссылка на N2D в шапке профиля
             return (
                 <div className="row">
-                    <Typography align="center" variant="h4" style={{color: "#a0a0a0"}}>Топ комментируемых фотографий</Typography>
+                    <Typography align="center" variant="h4" style={{color: "#a0a0a0"}}>Топ самых комментируемых фотографий</Typography>
                     <Grid container direction="column" alignItems="center"
                           spacing={0}
                           justify="center"

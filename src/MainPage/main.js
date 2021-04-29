@@ -5,7 +5,6 @@ import axios from 'axios';
 import PropTypes from "prop-types";
 import GlitchText from 'react-glitch-effect/core/GlitchText';
 
-//css
 import {withStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import IconButton from '@material-ui/core/IconButton';
@@ -107,7 +106,7 @@ class Main extends React.Component {
     {
         let form_data = new FormData();
 
-        this.setState({ClickMe: true, Position:[0, 6]});
+        this.setState({ClickMe: true, Position:[0, 6], isLoading: false});
 
 
         form_data.append('image', selectorFiles[0]);
@@ -133,7 +132,6 @@ class Main extends React.Component {
         let img_info = replaceAll(img.split("ru/")[1]
             .split('.')[0], '/', '-')
 
-        // this.props.history.push("/image/"+ img_info)
         const win = window.open("/image/"+ img_info, "_blank");
         win.focus();
     }
@@ -212,11 +210,6 @@ class Main extends React.Component {
                         } else {
                             gridCols = 3
                         }
-                        // if (window.screen.width > 1000){
-                        //     gridCols = 3
-                        // } else{
-                        //     gridCols = 1
-                        // }
                         loading =    <div><div>
                             <GridList cellHeight={250} cols={gridCols}>
                                 {tileData.map((tile) => (
@@ -276,14 +269,22 @@ class Main extends React.Component {
                           style={{ minHeight: '60vh' }}>
                         <Grid className={classes.interText} item xs={12}>
                             <div className={classes.mainText}>
-                                     <GlitchText component='h1'>
+                                     <GlitchText
+                                         component='h1'>
                                        I see You
                                      </GlitchText>
                             </div>
                             <div className={classes.infoText}>
                                 <Typography align="center" variant="h4">Найди меня в отражении огней ночных тусовок</Typography>
                                 <br/>
-                                <Typography align="center" variant="h6">Загрузите фотографию человека и мы поможем вам найти его</Typography>
+                                <Typography align="center"
+                                            variant="h6">
+                                    Загрузите фотографию человека и мы найдем Вам его в случае если он засветился на вечеринке,
+                                </Typography>
+                                <Typography align="center"
+                                            variant="h6">
+                                    в крайнем случае покажем максимально похожего.
+                                </Typography>
                             </div>
                         </Grid>
                         <br/>
