@@ -72,7 +72,7 @@ const useStyles = (theme) => ({
         color: "#a0a0a0"
     },
     mainButton:{
-        backgroundColor:"#a0a0a0",
+        backgroundColor:"black",
     }
 });
 
@@ -104,19 +104,25 @@ class Main extends React.Component {
     }
     handleChange(selectorFiles)
     {
+        // содержит путь к ручкам сервиса, для дев режима одни, для пром другие. Помогает отладить приложение
+        let url
+        // check dev mode
+        const { REACT_APP_DEV_MODE } = process.env;
+
         let form_data = new FormData();
 
         this.setState({ClickMe: true, Position:[0, 6], isLoading: false});
 
 
         form_data.append('image', selectorFiles[0]);
-        // for local debug
-
-        //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
+        } else {
+            url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        }
         // TODO hard code uid model
-        let url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+
         axios.post(url, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -159,6 +165,8 @@ class Main extends React.Component {
 
     render (){
 
+
+
         const { classes } = this.props;
         const {Position, ClickMe, json, isLoading } = this.state;
         let loading
@@ -183,7 +191,10 @@ class Main extends React.Component {
 
                     let buttonToBegin
                     if (Position[0] !== 0){
-                        buttonToBegin = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleToBegin()}>В начало</Button>
+                        buttonToBegin = <Button
+                            className={classes.mainButton}
+                            style={{ backgroundColor: "#f43" }}
+                            variant="contained" onClick={() => this.handleToBegin()}>В начало</Button>
 
                     } else {
                         buttonToBegin = null
@@ -199,10 +210,12 @@ class Main extends React.Component {
                         })
 
 
-                        const buttonGetMore = <Button className={classes.mainButton} variant="contained" onClick={() => this.handleModePic()}>Еще</Button>
+                        const buttonGetMore = <Button className={classes.mainButton}
+                                                      style={{ backgroundColor: "#f43" }}
+                                                      variant="contained"
+                                                      onClick={() => this.handleModePic()}>Еще</Button>
+
                         let gridCols
-
-
                         if (window.screen.availWidth <= 500){
                             gridCols = 1
                         } else if (window.screen.availWidth > 500 && window.screen.availWidth < 1024) {
@@ -299,8 +312,14 @@ class Main extends React.Component {
                             />
                                 <label htmlFor="contained-button-file">
                                     <div className={classes.mainButton}>
-                                    <Button variant="contained"
-                                            color="#a0a0a0" component="span">
+
+                                    <Button
+                                        variant="contained"
+                                        component="span"
+                                        style={{
+                                            backgroundColor: "#f43",
+                                        }}
+                                    >
                                         Загрузить
                                     </Button>
                                     </div>

@@ -102,11 +102,17 @@ class GiveMeTopComments extends React.Component {
     }
 
     componentDidMount() {
-        //check_debug mode
-        // const base_url = process.env.REACT_APP_BACKEND_HOST;
-        // let url = base_url + 'gettopcomments/';
-        // TODO hard code uid model
-        let url = 'gettopcomments/';
+        // содержит путь к ручкам сервиса, для дев режима одни, для пром другие. Помогает отладить приложение
+        let url
+        // check dev mode
+        const { REACT_APP_DEV_MODE } = process.env;
+
+        if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + 'gettopcomments/';
+        } else {
+            url = 'gettopcomments/';
+        }
         axios.post(url)
             .then(res => this.setState({json: res.data, isLoading: true}))
             .catch(err => console.log(err))

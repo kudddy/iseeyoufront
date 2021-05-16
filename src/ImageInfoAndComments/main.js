@@ -124,16 +124,26 @@ class ImageInfo extends React.Component{
         // возможно проверка лишняя
         if (firstInter){
 
+            let url
+            // check dev mode
+            const { REACT_APP_DEV_MODE } = process.env;
+
             // TODO повтор кода
             let pref_param = replaceAll(this.props.match.params["imgdata"],"-", "/") + ".jpg"
 
             const img = "https://img1.night2day.ru/" + pref_param
 
+            // содержит путь к ручкам сервиса, для дев режима одни, для пром другие. Помогает отладить приложение
+
+
             // запрос на чтение из базы
-            // const base_url = process.env.REACT_APP_BACKEND_HOST;
-            // let url = base_url + 'getcomments/';
-            // TODO hard code uid model
-            let url = 'getcomments/';
+            if (REACT_APP_DEV_MODE === "true"){
+                const base_url = process.env.REACT_APP_BACKEND_HOST;
+                url = base_url + 'getcomments/';
+            } else {
+                url = 'getcomments/';
+            }
+
             axios.post(url, {
                 MESSAGE_NAME: 'GET_COMMENT',
                 PAYLOAD: {
@@ -167,11 +177,18 @@ class ImageInfo extends React.Component{
             const img = "https://img1.night2day.ru/" + pref_param
 
             //пишем в базу данные по фотографии
+            // содержит путь к ручкам сервиса, для дев режима одни, для пром другие. Помогает отладить приложение
+            let url
+            // check dev mode
+            const { REACT_APP_DEV_MODE } = process.env;
 
-            // const base_url = process.env.REACT_APP_BACKEND_HOST;
-            // let url = base_url + 'addcomments/';
-            // TODO hard code uid model
-            let url = 'addcomments/';
+            if (REACT_APP_DEV_MODE === "true"){
+                const base_url = process.env.REACT_APP_BACKEND_HOST;
+                url = base_url + 'addcomments/';
+            } else {
+                url = 'addcomments/';
+            }
+
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_COMMENT',
                 PAYLOAD: {
