@@ -85,7 +85,8 @@ class Main extends React.Component {
             json: [],
             isLoading: false,
             ClickMe: false,
-            Position:[0, 6]
+            Position:[0, 6],
+            responseError: false
         }
         this.handleToBegin = this.handleToBegin.bind(this);
         this.handleModePic = this.handleModePic.bind(this);
@@ -129,7 +130,7 @@ class Main extends React.Component {
             }
         })
             .then(res => this.setState({json: res.data, isLoading: true}))
-            .catch(err => console.log(err))
+            .catch(err => this.setState({responseError: true, isLoading: true}))
     }
 
     handleRedirect(img){
@@ -168,7 +169,7 @@ class Main extends React.Component {
 
 
         const { classes } = this.props;
-        const {Position, ClickMe, json, isLoading } = this.state;
+        const {Position, ClickMe, json, isLoading, responseError } = this.state;
         let loading
 
         if (!ClickMe){
@@ -181,95 +182,109 @@ class Main extends React.Component {
                     </div>
             } else {
 
-                if (json["STATUS"]){
-
-                    let tileData = [];
-
-                    let slicePayload;
-
-                    slicePayload = json["PAYLOAD"]["result"].slice(Position[0], Position[1])
-
-                    let buttonToBegin
-                    if (Position[0] !== 0){
-                        buttonToBegin = <Button
-                            className={classes.mainButton}
-                            style={{ backgroundColor: "#f43" }}
-                            variant="contained" onClick={() => this.handleToBegin()}>В начало</Button>
-
-                    } else {
-                        buttonToBegin = null
-                    }
-
-                    if (slicePayload.length>0){
-                        slicePayload.forEach(function (item){
-                            tileData.push({
-                                img: item,
-                                title: 'Image',
-                                author: 'author'
-                            })
-                        })
-
-
-                        const buttonGetMore = <Button className={classes.mainButton}
-                                                      style={{ backgroundColor: "#f43" }}
-                                                      variant="contained"
-                                                      onClick={() => this.handleModePic()}>Еще</Button>
-
-                        let gridCols
-                        if (window.screen.availWidth <= 500){
-                            gridCols = 1
-                        } else if (window.screen.availWidth > 500 && window.screen.availWidth < 1024) {
-                            gridCols = 2
-                        } else {
-                            gridCols = 3
-                        }
-                        loading =    <div><div>
-                            <GridList cellHeight={250} cols={gridCols}>
-                                {tileData.map((tile) => (
-                                    <GridListTile key={tile.img} >
-                                        <img src={tile.img} alt={tile.title} style={{ display: 'block' , maxWidth: "95%", margin: "0 auto"}}/>
-                                        <GridListTileBar
-                                            title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
-                                            actionPosition = 'left'
-                                            subtitle={<span>Тапните для того чтобы получить фото в высоком разрешении или <br/> оставить комментарий</span>}
-                                            actionIcon={
-                                                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
-                                                    <InfoIcon />
-                                                </IconButton>
-                                            }
-                                        />
-                                    </GridListTile>
-                                ))}
-
-                            </GridList>
-                        </div>
-                            <br/>
-                            <div className={classes.buttonMore}>
-                                {buttonToBegin}
-                                {buttonGetMore}
-                            </div>
-                            <br/>
-                            <br/>
-                            <br/>
-                        </div>
-
-                    } else {
-
-                        // loading = <Typography className={classes.infoText} align="center" variant="h4">У нас все, загрузите еще фотографию для продолжения.</Typography>
-
-                        loading = <div className={classes.buttonMore}>
-                            <br/>
-                            <Typography className={classes.infoText} align="center" variant="h4">У нас все, загрузите еще фотографию для продолжения.</Typography>
-                            {buttonToBegin}
-                        </div>
-
-                    }
-
-
+                if (responseError){
+                    loading =
+                        <Typography className={classes.infoText}
+                                          align="center"
+                                          variant="h4">Упс, что то пошло не так! Попробуйте перезагрузить страницу.
+                        </Typography>
                 } else {
+                    if (json["STATUS"]){
 
-                    loading = <Typography className={classes.infoText} align="center" variant="h4">Ничего не найдено, попробуйте загрузить др</Typography>
+                        let tileData = [];
+
+                        let slicePayload;
+
+                        slicePayload = json["PAYLOAD"]["result"].slice(Position[0], Position[1])
+
+                        let buttonToBegin
+                        if (Position[0] !== 0){
+                            buttonToBegin =
+                                <Button
+                                className={classes.mainButton}
+                                style={{ backgroundColor: "#f43" }}
+                                variant="contained" onClick={() => this.handleToBegin()}>В начало
+                                </Button>
+
+                        } else {
+                            buttonToBegin = null
+                        }
+
+                        if (slicePayload.length>0){
+                            slicePayload.forEach(function (item){
+                                tileData.push({
+                                    img: item,
+                                    title: 'Image',
+                                    author: 'author'
+                                })
+                            })
+                            const buttonGetMore = <Button className={classes.mainButton}
+                                                          style={{ backgroundColor: "#f43" }}
+                                                          variant="contained"
+                                                          onClick={() => this.handleModePic()}>Еще</Button>
+
+                            let gridCols
+                            if (window.screen.availWidth <= 500){
+                                gridCols = 1
+                            } else if (window.screen.availWidth > 500 && window.screen.availWidth < 1024) {
+                                gridCols = 2
+                            } else {
+                                gridCols = 3
+                            }
+                            loading =    <div><div>
+                                <GridList cellHeight={250} cols={gridCols}>
+                                    {tileData.map((tile) => (
+                                        <GridListTile key={tile.img} >
+                                            <img src={tile.img} alt={tile.title} style={{ display: 'block' , maxWidth: "95%", margin: "0 auto"}}/>
+                                            <GridListTileBar
+                                                title={`Дата посещения: ${tile.img.split("/")[tile.img.split("/").length - 1].slice(0, 8)}`}
+                                                actionPosition = 'left'
+                                                subtitle={<span>Тапните для того чтобы получить фото в высоком разрешении или <br/> оставить комментарий</span>}
+                                                actionIcon={
+                                                    <IconButton aria-label={`info about ${tile.title}`} className={classes.icon} onClick={() => this.handleRedirect(tile.img)}>
+                                                        <InfoIcon />
+                                                    </IconButton>
+                                                }
+                                            />
+                                        </GridListTile>
+                                    ))}
+
+                                </GridList>
+                            </div>
+                                <br/>
+                                <div className={classes.buttonMore}>
+                                    {buttonToBegin}
+                                    {buttonGetMore}
+                                </div>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+
+                        } else {
+
+                            // loading = <Typography className={classes.infoText} align="center" variant="h4">У нас все, загрузите еще фотографию для продолжения.</Typography>
+
+                            loading = <div className={classes.buttonMore}>
+                                <br/>
+                                <Typography className={classes.infoText} align="center" variant="h4">У нас все, загрузите еще фотографию для продолжения.</Typography>
+                                {buttonToBegin}
+                            </div>
+
+                        }
+
+
+                    } else {
+                        loading =
+                            <Typography
+                                className={classes.infoText}
+                                align="center"
+                                variant="h4">Ничего не найдено, попробуйте загрузить др
+                            </Typography>
+                    }
                 }
+
+
 
             }
         }
