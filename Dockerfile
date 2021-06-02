@@ -18,9 +18,9 @@ RUN mkdir /etc/letsencrypt
 
 COPY --from=build /app/build /usr/share/nginx/html
 # new
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY cert/server.crt /etc/nginx/ssl/certs/server.crt
-COPY cert/server.key /etc/nginx/ssl/certs/server.key
+COPY nginx/nginx_https.conf /etc/nginx/conf.d/default.conf
+
+COPY letsencrypt /etc/letsencrypt
 EXPOSE 80
 EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]

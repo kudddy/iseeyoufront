@@ -161,7 +161,6 @@ class Main extends React.Component {
 
     handleToBegin(){
         this.setState({Position: [0, 6]})
-
     }
 
     render (){
