@@ -14,8 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import {CircularProgress} from '@material-ui/core';
-
+import {CircularProgress, Dialog, DialogActions, DialogContent} from '@material-ui/core';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
 
 
 
@@ -73,7 +73,37 @@ const useStyles = (theme) => ({
     },
     mainButton:{
         backgroundColor:"black",
+    },
+    closeButton:{
+
+    },
+    userAgree:{
+        background: "#262626",
+        color: "#a0a0a0"
+
+    },
+    headAgree:{
+        background: "#262626",
+        color: "#a0a0a0"
+    },
+
+    mainTextAgreements:{
+        background: "#262626",
+        color: "#a0a0a0"
     }
+
+
+
+});
+
+
+const DialogTitle = withStyles(useStyles)((props) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+        <MuiDialogTitle className={classes.headAgree} {...other}>
+            <Typography variant="h6">{children}</Typography>
+        </MuiDialogTitle>
+    );
 });
 
 class Main extends React.Component {
@@ -163,12 +193,18 @@ class Main extends React.Component {
         this.setState({Position: [0, 6]})
     }
 
+    handleClickOpen = () => {
+        this.setState({open: true})
+    };
+
+    handleClose = () => {
+        this.setState({open: false})
+    };
+
     render (){
 
-
-
         const { classes } = this.props;
-        const {Position, ClickMe, json, isLoading, responseError } = this.state;
+        const {Position, ClickMe, json, isLoading, responseError, open } = this.state;
         let loading
 
         if (!ClickMe){
@@ -289,7 +325,7 @@ class Main extends React.Component {
         }
         // TODO должна быть ссылка на N2D в шапке профиля
             return (
-                <div className="row">
+                <div className="row" >
                     <Grid container direction="column" alignItems="center"
                           spacing={0}
                           justify="center"
@@ -342,7 +378,39 @@ class Main extends React.Component {
                         </Grid>
                         <br/>
                         {loading}
+                        <div>
+                            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+                                Пользовательское соглашение
+                            </Button>
+                            <Dialog  className={classes.userAgree} onClose={this.handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                                <DialogTitle className={classes.headAgree} id="customized-dialog-title" onClose={this.handleClose}>
+                                    Условия использования веб-приложения
+                                </DialogTitle>
+                                <DialogContent className={classes.mainTextAgreements} dividers>
+                                    <Typography gutterBottom>
+                                        В первую очередь Вы должны четко понимать, что никаких пользовательских данных мы не храним.
+                                        Приложение получает фото, векторизует его, сравнивает с другими векторами и выводит результат.
+                                    </Typography>
+                                    <Typography gutterBottom>
+                                        Во вторых мы не правообладатели базы и никакого отношения к ней не имеем, все данные взяты из открытого источника, а именно
+                                        с сайта https://night2day.ru.
+                                    </Typography>
+                                    <Typography gutterBottom>
+                                        В третьих сайт носит развлекательный характер и не преследует цель каким-либо образом нажиться на Вас.
+                                    </Typography>
+                                    <Typography gutterBottom>
+                                        В четвертых мы всегда можете связаться с создателем через электронную почту по адресу - iseeyouappforyou@gmail.com.
+                                    </Typography>
+                                </DialogContent>
+                                <DialogActions className={classes.mainTextAgreements}>
+                                    <Button autoFocus onClick={this.handleClose} color="primary">
+                                        Принять соглашение
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </div>
                     </Grid>
+
 
                 </div>
 
