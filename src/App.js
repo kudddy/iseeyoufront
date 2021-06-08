@@ -4,8 +4,9 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import ButtonAppBar from "./HeaderComponent/Navigation";
 import Main from "./MainPage/main";
-import ImageInfo from "./ImageInfoAndComments/main"
-import GiveMeTopComments from "./GiveMeTopComments/main"
+import ImageInfo from "./ImageInfoAndComments/main";
+import GiveMeTopComments from "./GiveMeTopComments/main";
+import GiveMeFeedBack from "./GiveMeFeedBack/main"
 
 class App extends React.Component{
   state = {
@@ -28,6 +29,9 @@ class App extends React.Component{
               </Route>
               <Route exact path="/topcomment">
                 <GiveMeTopComments/>
+              </Route>
+              <Route exact path="/givemefeedback">
+                <GiveMeFeedBack/>
               </Route>
             </Switch>
           </div>

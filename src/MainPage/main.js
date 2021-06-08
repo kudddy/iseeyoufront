@@ -91,9 +91,6 @@ const useStyles = (theme) => ({
         background: "#262626",
         color: "#a0a0a0"
     }
-
-
-
 });
 
 
@@ -378,6 +375,8 @@ class Main extends React.Component {
                         </Grid>
                         <br/>
                         {loading}
+                        <br/>
+                        <br/>
                         <div>
                             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
                                 Пользовательское соглашение
