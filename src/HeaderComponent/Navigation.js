@@ -52,7 +52,7 @@ class ButtonAppBar extends React.Component{
         }
 
         const redirectGiveFeedBack = () => {
-            this.props.history.push('givemefeedback')
+            this.props.history.push('/givemefeedback')
         }
 
         const { classes } = this.props;

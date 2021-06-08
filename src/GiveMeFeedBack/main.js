@@ -81,7 +81,6 @@ class GiveMeFeedBack extends React.Component{
     }
 
     componentDidMount(prevProps, prevState, snapshot) {
-        console.log("тут мы получаем данные из базы")
         let url
         const { REACT_APP_DEV_MODE } = process.env;
 
@@ -160,16 +159,6 @@ class GiveMeFeedBack extends React.Component{
         const { classes } = this.props;
 
         const { json, isLoading } = this.state;
-
-
-        // let json = {
-        //     "MESSAGE_NAME": "GET_COMMENT",
-        //     "STATUS": true,
-        //     "PAYLOAD": {
-        //         "result": ["кошка"],
-        //         "description": "OK"
-        //     }
-        // }
 
         let commentsPlug
         let comments = null
@@ -250,9 +239,6 @@ class GiveMeFeedBack extends React.Component{
             >
             Отзывы от наших пользователей!
             </Typography>
-
-
-
         return(
             <div className={classes.root}>
                 {headerText}

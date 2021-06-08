@@ -21,6 +21,7 @@ class App extends React.Component{
           <div>
             <ButtonAppBar AuthStatus={this.state.authState} updateData={this.updateData}/>
             <Switch>
+
               <Route exact path="/">
                 <Main/>
               </Route>
