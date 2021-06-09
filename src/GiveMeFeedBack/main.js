@@ -237,7 +237,7 @@ class GiveMeFeedBack extends React.Component{
                 variant="h4"
                 className={classes.infoText}
             >
-            Отзывы от наших пользователей!
+            Крайние отзывы наших пользователей!
             </Typography>
         return(
             <div className={classes.root}>

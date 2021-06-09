@@ -272,7 +272,6 @@ class GiveMeTopComments extends React.Component {
                         <br/>
                         {loading}
                     </Grid>
-
                 </div>
 
             );
