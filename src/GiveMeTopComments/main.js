@@ -108,12 +108,12 @@ class GiveMeTopComments extends React.Component {
         // check dev mode
         const { REACT_APP_DEV_MODE } = process.env;
 
-        if (REACT_APP_DEV_MODE === "true"){
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            url = base_url + 'gettopcomments/';
-        } else {
-            url = 'gettopcomments/';
-        }
+        // if (REACT_APP_DEV_MODE === "true"){
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        url = base_url + 'gettopcomments/';
+        // } else {
+        //     url = 'gettopcomments/';
+        // }
         axios.post(url)
             .then(res => this.setState({json: res.data, isLoading: true}))
             .catch(err => this.setState({ResponseError: true, isLoading: true}))
@@ -272,7 +272,6 @@ class GiveMeTopComments extends React.Component {
                         <br/>
                         {loading}
                     </Grid>
-
                 </div>
 
             );

@@ -15,11 +15,17 @@ const useStyles = (theme) => ({
     },
     menuButton: {
     },
+    leftBar:{
+        marginLeft: "auto"
+    },
     title: {
         flexGrow: 1,
     },
     appBar:{
         background : '#262626'
+    },
+    buttonSendFeedBack: {
+        marginLeft: "auto"
     }
 
 });
@@ -48,9 +54,20 @@ class ButtonAppBar extends React.Component{
 
         }
 
+        const redirectGiveFeedBack = () => {
+            this.props.history.push('/givemefeedback')
+        }
+
+        const redirectGiveTop = () => {
+            this.props.history.push('/topcomment')
+        }
 
         const { classes } = this.props;
         let button = <Button color="inherit" onClick={redirectMain}>I SEE YOU</Button>
+
+        let buttonGiveFeedBack = <Button className={classes.buttonSendFeedBack} onClick={redirectGiveFeedBack} color="inherit">Feedback</Button>
+
+        let buttonGiveTop = <Button className={classes.buttonSendFeedBack} onClick={redirectGiveTop} color="inherit">TOP</Button>
 
         return (
             <div className={classes.root}>
@@ -59,6 +76,11 @@ class ButtonAppBar extends React.Component{
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         </IconButton>
                         {button}
+                        <div className={classes.leftBar}>
+                            {buttonGiveTop}
+                            {buttonGiveFeedBack}
+                        </div>
+
                     </Toolbar>
                 </AppBar>
             </div>

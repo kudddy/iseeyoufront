@@ -137,12 +137,12 @@ class ImageInfo extends React.Component{
 
 
             // запрос на чтение из базы
-            if (REACT_APP_DEV_MODE === "true"){
-                const base_url = process.env.REACT_APP_BACKEND_HOST;
-                url = base_url + 'getcomments/';
-            } else {
-                url = 'getcomments/';
-            }
+            // if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + 'getcomments/';
+            // } else {
+            //     url = 'getcomments/';
+            // }
 
             axios.post(url, {
                 MESSAGE_NAME: 'GET_COMMENT',
@@ -182,12 +182,12 @@ class ImageInfo extends React.Component{
             // check dev mode
             const { REACT_APP_DEV_MODE } = process.env;
 
-            if (REACT_APP_DEV_MODE === "true"){
-                const base_url = process.env.REACT_APP_BACKEND_HOST;
-                url = base_url + 'addcomments/';
-            } else {
-                url = 'addcomments/';
-            }
+            // if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + 'addcomments/';
+            // } else {
+            //     url = 'addcomments/';
+            // }
 
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_COMMENT',
@@ -224,9 +224,6 @@ class ImageInfo extends React.Component{
 
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-    }
-
     render() {
 
         let pref_param = replaceAll(this.props.match.params["imgdata"],"-", "/") + ".jpg"
@@ -257,13 +254,11 @@ class ImageInfo extends React.Component{
                 </div>
         } else {
 
-
             if (json["STATUS"]) {
                 if (json["PAYLOAD"]["result"].length > 0){
                     comments =
                         <div>
                             {json["PAYLOAD"]["result"].map((text) => (
-
                                     <div className={classes.imageWidth} style={{ width: width + "px" }}>
                                         <div style={{ display: "inline-flex" }}>
                                             <Avatar style={{background:colors[Math.floor(Math.random() * colors.length)]}}>H</Avatar>
