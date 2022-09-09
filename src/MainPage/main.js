@@ -143,12 +143,12 @@ class Main extends React.Component {
 
 
         form_data.append('image', selectorFiles[0]);
-        if (REACT_APP_DEV_MODE === "true"){
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.6/45/';
-        } else {
-            url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
-        }
+        // if (REACT_APP_DEV_MODE === "true"){
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        url = base_url + 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        // } else {
+        //     url = 'check_similarity/7dbbccad-a746-4f3d-ac3a-e22327e1bcf9/0.75/45/';
+        // }
         // TODO hard code uid model
 
         axios.post(url, form_data, {

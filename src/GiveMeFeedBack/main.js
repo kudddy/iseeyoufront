@@ -85,12 +85,12 @@ class GiveMeFeedBack extends React.Component{
         const { REACT_APP_DEV_MODE } = process.env;
 
         // запрос на чтение из базы
-        if (REACT_APP_DEV_MODE === "true"){
-            const base_url = process.env.REACT_APP_BACKEND_HOST;
-            url = base_url + 'getfeedback/';
-        } else {
-            url = 'getfeedback/';
-        }
+        // if (REACT_APP_DEV_MODE === "true"){
+        const base_url = process.env.REACT_APP_BACKEND_HOST;
+        url = base_url + 'getfeedback/';
+        // } else {
+        //     url = 'getfeedback/';
+        // }
 
         axios.post(url, {
             MESSAGE_NAME: 'GET_FEEDBACK',

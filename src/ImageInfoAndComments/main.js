@@ -137,12 +137,12 @@ class ImageInfo extends React.Component{
 
 
             // запрос на чтение из базы
-            if (REACT_APP_DEV_MODE === "true"){
-                const base_url = process.env.REACT_APP_BACKEND_HOST;
-                url = base_url + 'getcomments/';
-            } else {
-                url = 'getcomments/';
-            }
+            // if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + 'getcomments/';
+            // } else {
+            //     url = 'getcomments/';
+            // }
 
             axios.post(url, {
                 MESSAGE_NAME: 'GET_COMMENT',
@@ -182,12 +182,12 @@ class ImageInfo extends React.Component{
             // check dev mode
             const { REACT_APP_DEV_MODE } = process.env;
 
-            if (REACT_APP_DEV_MODE === "true"){
-                const base_url = process.env.REACT_APP_BACKEND_HOST;
-                url = base_url + 'addcomments/';
-            } else {
-                url = 'addcomments/';
-            }
+            // if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + 'addcomments/';
+            // } else {
+            //     url = 'addcomments/';
+            // }
 
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_COMMENT',
