@@ -87,7 +87,7 @@ class GiveMeFeedBack extends React.Component{
         // запрос на чтение из базы
         // if (REACT_APP_DEV_MODE === "true"){
         const base_url = process.env.REACT_APP_BACKEND_HOST;
-        url = base_url + 'getfeedback/';
+        url = base_url + '/iseeyou/getfeedback';
         // } else {
         //     url = 'getfeedback/';
         // }
@@ -115,12 +115,12 @@ class GiveMeFeedBack extends React.Component{
             // check dev mode
             const { REACT_APP_DEV_MODE } = process.env;
 
-            if (REACT_APP_DEV_MODE === "true"){
-                const base_url = process.env.REACT_APP_BACKEND_HOST;
-                url = base_url + 'addfeedback/';
-            } else {
-                url = 'addfeedback/';
-            }
+            // if (REACT_APP_DEV_MODE === "true"){
+            const base_url = process.env.REACT_APP_BACKEND_HOST;
+            url = base_url + '/iseeyou/addfeedback';
+            // } else {
+            //     url = 'addfeedback/';
+            // }
 
             axios.post(url, {
                 MESSAGE_NAME: 'ADD_FEEDBACK',

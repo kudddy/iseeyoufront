@@ -139,7 +139,7 @@ class ImageInfo extends React.Component{
             // запрос на чтение из базы
             // if (REACT_APP_DEV_MODE === "true"){
             const base_url = process.env.REACT_APP_BACKEND_HOST;
-            url = base_url + 'getcomments/';
+            url = base_url + 'iseeyou/getcomments';
             // } else {
             //     url = 'getcomments/';
             // }
@@ -184,7 +184,7 @@ class ImageInfo extends React.Component{
 
             // if (REACT_APP_DEV_MODE === "true"){
             const base_url = process.env.REACT_APP_BACKEND_HOST;
-            url = base_url + 'addcomments/';
+            url = base_url + 'iseeyou/addcomments';
             // } else {
             //     url = 'addcomments/';
             // }

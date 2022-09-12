@@ -110,7 +110,7 @@ class GiveMeTopComments extends React.Component {
 
         // if (REACT_APP_DEV_MODE === "true"){
         const base_url = process.env.REACT_APP_BACKEND_HOST;
-        url = base_url + 'gettopcomments/';
+        url = base_url + 'iseeyou/gettopcomments';
         // } else {
         //     url = 'gettopcomments/';
         // }
